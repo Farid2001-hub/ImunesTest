@@ -25,6 +25,7 @@ pipeline {
 
             post {
                 always {
+                    junit 'nodes/test-pc.xml'
                     junit allowEmptyResults: true, testResults: '**/testresults/*.xml'
                 }
             }
