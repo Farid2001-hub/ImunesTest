@@ -1,3 +1,4 @@
+lappend auto_path /usr/share/tcltk/tcl8.6
 package require Tcltest
 source ../pc.tcl
 
