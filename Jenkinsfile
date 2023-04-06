@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'tclsh test_mypc.tcl'
+                sh 'tclsh test_pc.tcl'
             }
             post {
                 always {
