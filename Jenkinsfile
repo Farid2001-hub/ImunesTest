@@ -10,7 +10,7 @@ pipeline {
     
     stage('Install Tcl') {
       steps {
-        sh 'echo root | sudo -S apt-get update && sudo -S apt-get install -y tcl tcllib'
+        sh 'echo "root" | sudo -S apt-get update && sudo -S apt-get install -y tcl tcllib'
       }
     }
     
