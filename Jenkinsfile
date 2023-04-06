@@ -7,13 +7,6 @@ pipeline {
         checkout scm
       }
     }
-    
-    stage('Install Tcl') {
-      steps {
-        sh 'echo "root" | sudo -S apt-get update && sudo -S apt-get install -y tcl tcllib'
-      }
-    }
-    
     stage('Run Tests') {
       steps {
         sh '''
