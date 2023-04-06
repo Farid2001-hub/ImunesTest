@@ -1,20 +1,36 @@
 pipeline {
-    agent any
-    stages {
-        stage('Build') {
-            steps {
-                sh 'echo "Construire le projet IMUNES Sorbonne"'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'tclsh test_pc.tcl'
-            }
-            post {
-                always {
-                    junit 'test_results.xml'
-                }
-            }
-        }
+  agent any
+  
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
     }
+    
+    stage('Install Tcl') {
+      steps {
+        sh 'sudo apt-get update && sudo apt-get install -y tcl tcllib'
+      }
+    }
+    
+    stage('Run Tests') {
+      steps {
+        sh '''
+          # Lance les tests avec TclTest
+          tclsh test_mypc.tcl
+          
+          # Enregistre le résultat de tests dans un rapport JUnit
+          tclsh tcltest2junit.tcl test_mypc.tcl > results.xml
+        '''
+      }
+      
+      post {
+        always {
+          junit 'results.xml'
+        }
+      }
+    }
+  }
 }
+
