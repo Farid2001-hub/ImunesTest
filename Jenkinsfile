@@ -1,12 +1,6 @@
 pipeline {
-  agent any
-  stages {
-    stage('Checkout') {
-      steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/Farid2001-hub/ImunesTest.git']]])
-      }
-    }
-    
+    agent any
+
     stages {
         stage('Build') {
             steps {
@@ -31,3 +25,4 @@ pipeline {
         }
     }
 }
+
