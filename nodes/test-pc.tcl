@@ -1,4 +1,4 @@
-lappend auto_path /usr/share/tcltk/tcl8.6
+lappend auto_path $env(TCLLIBPATH)
 package require Tcltest
 source ../pc.tcl
 
