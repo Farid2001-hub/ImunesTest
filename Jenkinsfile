@@ -2,6 +2,13 @@ pipeline {
     agent any
 
     stages {
+        stage('Install Dependencies') {
+            steps {
+                sh 'apt-get update'
+                sh 'apt-get install -y make tcl tcllib'
+            }
+        }
+
         stage('Build') {
             steps {
                 sh 'make'
@@ -9,10 +16,6 @@ pipeline {
         }
 
         stage('Test') {
-            environment {
-                TCLLIBPATH = '/usr/share/tcltk/tcl8.6'
-            }
-
             steps {
                 sh 'tclsh nodes/test-pc.tcl'
             }
@@ -25,4 +28,5 @@ pipeline {
         }
     }
 }
+
 
