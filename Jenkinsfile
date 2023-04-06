@@ -11,6 +11,11 @@ pipeline {
         sh 'make'
       }
     }
+    
+    environment {
+    TCLLIBPATH = '/usr/share/tcltk/tcl8.6'
+      }
+
     stage('Test') {
       steps {
         sh 'tclsh nodes/test-pc.tcl'
