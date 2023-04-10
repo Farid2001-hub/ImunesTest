@@ -1,14 +1,6 @@
 pipeline {
     agent any
-
-    stages {
-        stage('Install dependencies') {
-            steps {
-                sh ' echo root | sudo -S apt-get update'
-                sh ' echo root | sudo -S apt-get install tcl'
-                sh ' echo root | sudo -S apt-get install tcllib'
-            }
-        }
+    
         stage('Run tests') {
             steps {
                 sh '''
