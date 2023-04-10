@@ -5,7 +5,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 sh '''
-                    source /etc/profile
+                    source ./etc/profile
                     package require tcltest
 
                     # Définit un ensemble de tests nommé "mon_test"
