@@ -10,7 +10,7 @@ pipeline {
                     tclsh -c "package require tcltest;
                     source nodes/pc.tcl;
                     namespace eval tests {
-                        # Définit un test pour la fonction "pc"
+                        # Définit un test pour la fonction "pc1"
                         proc test_pc {} {
                             set expected \"eth0:1\"
                             set result [pc]
