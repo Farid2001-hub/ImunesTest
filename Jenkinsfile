@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -7,16 +8,16 @@ pipeline {
                 sh '''
                     # Exécute les tests tcltest
                     tclsh -c "package require tcltest;
-                    namespace eval mon_test {
-                        # Définit un test nommé "test_true" qui renvoie toujours "true"
-                        proc test_true {} {
-                            set x 1
-                            set y 1
-                            set result [expr {$x == $y}]
-                            tcltest::assert $result
+                    source nodes/pc.tcl;
+                    namespace eval tests {
+                        # Définit un test pour la fonction "pc"
+                        proc test_pc {} {
+                            set expected \"eth0:1\"
+                            set result [pc]
+                            tcltest::assert [string equal $result $expected] \"Expected: $expected, but got: $result\"
                         }
                     }
-                    tcltest::runTests mon_test"
+                    tcltest::runTests tests"
                 '''
             }
         }
