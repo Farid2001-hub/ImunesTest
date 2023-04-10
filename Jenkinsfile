@@ -5,10 +5,8 @@ pipeline {
         stage('Run tests') {
             steps {
                 sh '''
-                    source . /etc/profile
-                    package require tcltest
-
-                    # Définit un ensemble de tests nommé "mon_test"
+                    # Exécute les tests tcltest
+                    tclsh -c "package require tcltest;
                     namespace eval mon_test {
                         # Définit un test nommé "test_true" qui renvoie toujours "true"
                         proc test_true {} {
@@ -18,14 +16,13 @@ pipeline {
                             tcltest::assert $result
                         }
                     }
-
-                    # Exécute l'ensemble de tests "mon_test"
-                    tcltest::runTests mon_test
+                    tcltest::runTests mon_test"
                 '''
             }
         }
     }
 }
+
 
     
 
