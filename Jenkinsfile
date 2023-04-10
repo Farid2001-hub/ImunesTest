@@ -8,7 +8,7 @@ pipeline {
                 sh '''
                     # Exécute les tests tcltest
                     tclsh -c "package require tcltest;
-                    source nodes/pc1.tcl;
+                    source nnodes/pc1.tcl;
                     namespace eval tests {
                         # Définit un test pour la fonction "pc"
                         proc test_pc {} {
