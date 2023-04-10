@@ -4,9 +4,9 @@ pipeline {
     stages {
         stage('Install dependencies') {
             steps {
-                sh 'sudo apt-get update'
-                sh 'sudo apt-get install tcl'
-                sh 'sudo apt-get install tcllib'
+                sh ' echo root | sudo -S apt-get update'
+                sh ' echo root | sudo -S apt-get install tcl'
+                sh ' echo root | sudo -S apt-get install tcllib'
             }
         }
         stage('Run tests') {
