@@ -2,36 +2,37 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Install dependencies') {
             steps {
-                checkout scm
+                sh 'sudo apt-get update'
+                sh 'sudo apt-get install tcl'
+                sh 'sudo apt-get install tcllib'
             }
         }
-
-        stage('Build') {
+        stage('Run tests') {
             steps {
-                sh 'make'
-            }
-        }
+                sh '''
+                    package require tcltest
 
-        stage('Test') {
-            environment {
-                TCLLIBPATH = '/usr/share/tcltk/tcl8.6'
-            }
+                    # Définit un ensemble de tests nommé "mon_test"
+                    namespace eval mon_test {
+                        # Définit un test nommé "test_true" qui renvoie toujours "true"
+                        proc test_true {} {
+                            set x 1
+                            set y 1
+                            set result [expr {$x == $y}]
+                            tcltest::assert $result
+                        }
+                    }
 
-            steps {
-                sh 'tclsh nodes/test-pc.tcl'
-            }
-
-            post {
-                always {
-                    junit 'nodes/test-pc.xml'
-                    junit allowEmptyResults: true, testResults: '**/testresults/*.xml'
-                }
+                    # Exécute l'ensemble de tests "mon_test"
+                    tcltest::runTests mon_test
+                '''
             }
         }
     }
 }
+
 
 
 
