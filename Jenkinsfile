@@ -7,7 +7,7 @@ pipeline {
             steps {
                 sh '''
                     # Exécute les tests tcltest
-                    tclsh -c "package require tcltest;
+                   
                     source nodes/pc.tcl;
                     namespace eval tests {
                         # Définit un test pour la fonction "pc"
