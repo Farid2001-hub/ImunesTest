@@ -18,7 +18,7 @@ pipeline {
                         
                         # Définit un autre test pour la fonction 'pc'
                         proc test_pc_with_args {} {
-                            set e
+                            set expected \"eth1:5\"
                             set result [pc -iface eth1 -num 5]
                             tcltest::assert [string equal $result $expected] \"Expected: $expected, but got: $result\"
                         }
