@@ -8,12 +8,12 @@ pipeline {
                 sh '''
                     # Exécute les tests tcltest
                     tclsh -c "package require tcltest;
-                    source nodes/nouveauPc.tcl;
+                    source nodes/pc.tcl;
                     namespace eval tests {
-                        # Définit un test pour la fonction "nouveauPc"
-                        proc test_nouveauPc {} {
-                            set expected \"pc1\"
-                            set result [nouveauPc]
+                        # Définit un test pour la fonction "pc"
+                        proc test_pc {} {
+                            set expected \"eth0:1\"
+                            set result [pc]
                             tcltest::assert [string equal $result $expected] \"Expected: $expected, but got: $result\"
                         }
                     }
@@ -23,6 +23,7 @@ pipeline {
         }
     }
 }
+
 
 
     
