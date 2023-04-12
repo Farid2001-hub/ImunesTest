@@ -10,7 +10,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '''
-                    source nodes/nouveauPc.tcl
+                    bash nodes/nouveauPc.tcl
                     package require tcltest
 
                     # Définition des tests
