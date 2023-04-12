@@ -1,22 +1,21 @@
 pipeline {
     agent any
+
     stages {
-        stage('Test nouveauPc.tcl') {
+        stage('Test') {
             steps {
                 sh '''
-                    chmod +x nodes/nouveauPc.tcl
-                    RESULT=$(echo 'package require ns; source nodes/nouveauPc.tcl; nouveauPc pc1' | ns)
-                    if [[ $RESULT =~ "Error" ]]; then
-                        echo "Test failed: $RESULT"
-                        exit 1
-                    else
-                        echo "Test succeeded: $RESULT"
-                    fi
+                    # Charger les modules TCL requis
+                    module load tcl
+
+                    # Exécuter le test TCL
+                    tclsh nodes/test.tcl
                 '''
             }
         }
     }
 }
+
 
 
 
