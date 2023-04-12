@@ -1,8 +1,5 @@
 #!/usr/bin/env tclsh
 
-# Charger le module Imunes
-package require Imunes
-
 # Charger le module du noeud PC
 package require Pc
 
