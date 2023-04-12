@@ -2,33 +2,44 @@ pipeline {
     agent any
 
     stages {
-        stage('Run tests') {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/Farid2001-hub/ImunesTest.git'
+            }
+        }
+        stage('Run Tests') {
             steps {
                 sh '''
-                    # Exécute les tests tcltest
-                    tclsh -c "package require tcltest;
-                    source nodes/pc.tcl;
-                    namespace eval tests {
-                        # Définit un test pour la fonction 'pc'
-                        proc test_pc {} {
-                            set expected \"eth0:1\"
-                            set result [pc]
-                            tcltest::assert [string equal $result $expected] \"Expected: $expected, but got: $result\"
-                        }
-                        
-                        # Définit un autre test pour la fonction 'pc'
-                        proc test_pc_with_args {} {
-                            set expected \"eth1:5\"
-                            set result [pc -iface eth1 -num 5]
-                            tcltest::assert [string equal $result $expected] \"Expected: $expected, but got: $result\"
+                    source nodes/nouveauPc.tcl
+                    package require tcltest
+
+                    # Définition des tests
+                    namespace eval ::tests::nouveauPc {
+                        proc test_ajoutPc {} {
+                            # Ajouter un PC
+                            set node [nouveauPc "PC1" "192.168.1.1"]
+                            set node_name [lindex $node 0]
+                            set node_ip [lindex $node 1]
+                            # Vérifier que le nom et l'adresse IP du PC ont été correctement définis
+                            set expected_name "PC1"
+                            set expected_ip "192.168.1.1"
+                            if {$node_name == $expected_name && $node_ip == $expected_ip} {
+                                set result "pass"
+                            } else {
+                                set result "fail"
+                            }
+                            tcltest::assert $result "nouveauPc a créé le PC avec les bonnes informations"
                         }
                     }
-                    tcltest::runTests tests"
+
+                    # Exécution des tests
+                    tcltest::runSuite ::tests::nouveauPc
                 '''
             }
         }
     }
 }
+
 
 
 
