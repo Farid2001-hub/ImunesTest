@@ -1,16 +1,22 @@
-# test.tcl
 package require tcltest
-source "nodes/nouveauPc.tcl"
 
-# Test case
-proc test_nouveauPc {} {
-    set node [nouveauPc "test_node" "192.168.1.1" "00:11:22:33:44:55" "255.255.255.0"]
-    set expected_node_info "test_node 192.168.1.1 00:11:22:33:44:55 255.255.255.0"
-    # Assert that the node info matches the expected result
-    set msg "Expected: $expected_node_info, but got: $node"
-    return [list $msg [string equal $node $expected_node_info]]
+# Chargement du script à tester
+source "./nodes/nouveauPc.tcl"
+
+# Définition du nom du test
+set testName "Test de la fonction nouveauPc"
+
+# Définition du scénario de test
+proc test_${testName} {} {
+    # Test de la fonction nouveauPc
+    set result [nouveauPc]
+
+    # Assertion de la valeur de retour
+    set expected "nouveauPc.tcl executed successfully"
+    set message "La valeur retournée est incorrecte"
+    tcltest::assertEqual $expected $result $message
 }
 
-# Run the test
-tcltest::runSuite
+# Exécution des tests
+tcltest::runTests $testName
 
