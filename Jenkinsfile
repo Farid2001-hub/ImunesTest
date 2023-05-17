@@ -6,7 +6,6 @@ pipeline {
             steps {
                 script {
                     // Installation de Tcl si nécessaire
-                    sh 'apt-get update && apt-get install -y tcl'
                     
                     // Exécution du test Tcl
                     sh '''
