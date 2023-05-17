@@ -1,39 +1,69 @@
 pipeline {
     agent any
-
+    
     stages {
-        stage('Test nouveauPc') {
+        stage('Test') {
             steps {
                 script {
-                    // Définition du chemin d'accès au script TCL
-                    def scriptPath = './nodes/nouveauPc.tcl'
+                    // Installation de Tcl si nécessaire
+                    sh 'apt-get update && apt-get install -y tcl'
+                    
+                    // Exécution du test Tcl
+                    sh '''
+                        tclsh <<EOF
+                        package require tcltest
 
-                    // Exécution du test TCL avec le plugin TCLTest
-                    tcltest([
-                        testFilePath(pattern: scriptPath),
-                        '-verbose', // Affiche les informations détaillées sur les tests exécutés
-                        '-load', './nodes/nouveauPc.tcl', // Charge le script à tester
-                        '-cleanup', // Effectue un nettoyage avant d'exécuter les tests
-                        '-debug', // Active le mode de débogage pour les tests
-                        './nodes/test.tcl' // Chemin vers le fichier de test
-                    ])
+                        # Chargement du code à tester
+                        source "nodes/nouveauPc.tcl"
+
+                        # Définition du nom du test et du corps du test
+                        set testCode {
+                            # Vérification de la fonction ifcName
+                            proc test_ifcName {} {
+                                set result [pcn.ifcName "eth" "0"]
+                                set expected "eth0"
+                                if {$result eq $expected} {
+                                    return -code 0 -level 0 -errorinfo "Test failed: Expected '$expected', got '$result'"
+                                }
+                            }
+
+                            # Vérification de la fonction IPAddrRange
+                            proc test_IPAddrRange {} {
+                                set result [pcn.IPAddrRange]
+                                set expected 20
+                                if {$result != $expected} {
+                                    return -code 0 -level 0 -errorinfo "Test failed: Expected '$expected', got '$result'"
+                                }
+                            }
+
+                            # Vérification de la fonction layer
+                            proc test_layer {} {
+                                set result [pcn.layer]
+                                set expected "NETWORK"
+                                if {$result ne $expected} {
+                                    return -code 0 -level 0 -errorinfo "Test failed: Expected '$expected', got '$result'"
+                                }
+                            }
+
+                            # Vérification de la fonction virtlayer
+                            proc test_virtlayer {} {
+                                set result [pcn.virtlayer]
+                                set expected "NAMESPACE"
+                                if {$result ne $expected} {
+                                    return -code 0 -level 0 -errorinfo "Test failed: Expected '$expected', got '$result'"
+                                }
+                            }
+                        }
+
+                        # Création du test à partir du code de test
+                        tcltest::testcase "Tests for nouveauPc" -body $testCode
+
+                        # Exécution des tests
+                        tcltest::runTests
+                        EOF
+                    '''
                 }
             }
         }
     }
 }
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
